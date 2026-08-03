@@ -1,0 +1,8 @@
+# CURIA DECLARE MODEL
+# Expert-validated constraints used in the activation-aware experiment.
+
+Precedence[Opinion, Judgment]
+Response[Judgment, Judgment (OJ)]
+Response[Order, Order (OJ)]
+Precedence[Statement of case or written observations, Judgment]
+NotResponse[Judgment, Statement of case or written observations]
