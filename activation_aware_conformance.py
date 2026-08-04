@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pm4py
 from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 from pm4py.util import constants as pm4py_constants
 
 # Some dependency combinations configure the root logger at DEBUG level during
@@ -159,7 +160,7 @@ def load_event_log(log_path: Path, separator: str) -> pd.DataFrame:
     ).reset_index(drop=True)
 
 
-def to_declare4py_event_log(frame: pd.DataFrame) -> tuple[D4PyEventLog, list[str]]:
+def to_declare4py_event_log(frame: pd.DataFrame) -> tuple[D4PyEventLog, list[str], object]:
     """Convert the input table into the event-log object consumed by Declare4Py."""
     pm_frame = frame.rename(
         columns={
@@ -194,7 +195,14 @@ def to_declare4py_event_log(frame: pd.DataFrame) -> tuple[D4PyEventLog, list[str
         case_ids.append(str(case_id))
 
     d4py_log = D4PyEventLog(case_name="case:concept:name", log=pm_event_log)
-    return d4py_log, case_ids
+    return d4py_log, case_ids, pm_event_log
+
+
+def export_xes_log(pm_event_log: object, source_log_path: Path, output_dir: Path) -> Path:
+    """Export the in-memory PM4Py event log to XES in the output directory."""
+    xes_path = output_dir / f"{source_log_path.stem}.xes"
+    xes_exporter.apply(pm_event_log, str(xes_path))
+    return xes_path
 
 
 def ensure_declare_conditions(declare_model: DeclareModel) -> None:
@@ -637,7 +645,8 @@ def main() -> None:
     arguments = parse_arguments()
     ensure_output_directory(arguments.output_dir)
     event_table = load_event_log(arguments.log, arguments.separator)
-    d4py_log, case_ids = to_declare4py_event_log(event_table)
+    d4py_log, case_ids, pm_event_log = to_declare4py_event_log(event_table)
+    xes_path = export_xes_log(pm_event_log, arguments.log, arguments.output_dir)
     declare_model = load_declare_model(arguments.model)
     rules = describe_rules(declare_model)
     rule_ids = [rule.rule_id for rule in rules]
@@ -664,6 +673,7 @@ def main() -> None:
 
     # print(f"\nLoaded {len(event_table):,} events from {len(case_ids):,} cases.")
     print(f"\nLoaded file: {arguments.log}")
+    print(f"Exported XES log: {xes_path}")
     print(f"Loaded {len(case_ids):,} cases and {len(event_table):,} events.")
     print()
     print(f"Parsed {len(rules)} DECLARE constraints.\n")

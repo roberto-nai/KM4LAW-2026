@@ -21,7 +21,7 @@ annotation, machine learning, or calls to external services.
 │   └── curia_model.decl              # DECLARE models
 ├── event_log/
 │   └── curia_log_en.csv              # CURIA event log 
-├── results/                          # Results created by the script
+├── results/                          # Results created by the script (include the XES version of the event log)
 └── requirements.txt                  # Libraries needed
 ```
 
