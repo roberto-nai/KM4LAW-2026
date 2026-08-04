@@ -8,14 +8,9 @@ metadata and five DECLARE constraints describing judicial procedural behaviour.
 The experiment is deliberately descriptive. It does not require manual
 annotation, machine learning, or calls to external services.
 
-## Research questions
+## InfoCuria
+[https://infocuria.curia.europa.eu/tabs/tout?lang=EN](https://infocuria.curia.europa.eu/tabs/tout?lang=EN)
 
-The analysis answers three research questions:
-
-1. **RQ1 — How frequently is each DECLARE constraint activated?**
-2. **RQ2 — What is the conformance rate among activated cases?**
-3. **RQ3 — How does the treatment of inactive constraints affect the global
-   conformance score?**
 
 ## Repository structure
 
