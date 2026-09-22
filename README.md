@@ -1,4 +1,7 @@
-# Activation-aware DECLARE conformance analysis of CURIA event logs
+# Vacuity Matters: Activation-Aware DECLARE  Conformance Checking of Judicial Event Logs
+
+## Authors: Roberto Nai, Emilio Sulis, Vittoria M. S. Trifiletti, Alessandro Gianola
+
 
 This repository contains a compact and reproducible experiment on the effect of
 constraint activation and vacuous satisfaction in declarative conformance
